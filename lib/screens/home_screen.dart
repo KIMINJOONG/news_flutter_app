@@ -7,6 +7,7 @@ import 'package:news_app_flutter_course/consts/vars.dart';
 import 'package:news_app_flutter_course/services/utils.dart';
 import 'package:news_app_flutter_course/widgets/drawer_widget.dart';
 import 'package:news_app_flutter_course/widgets/tabs.dart';
+import 'package:news_app_flutter_course/widgets/vertical_spacing.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/theme_provider.dart';
@@ -50,11 +51,11 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         drawer: DrawerWidget(),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Row(
                 children: [
                   TabsWidget(
                     text: 'All News',
@@ -75,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 25,
                   ),
                   TabsWidget(
-                    text: 'All News',
+                    text: 'Top trending',
                     color: newsType == NewsType.topTrending
                         ? Theme.of(context).cardColor
                         : Colors.transparent,
@@ -91,8 +92,40 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-            ),
-          ],
+              VerticalSpacing(height: 10),
+              newsType == NewsType.topTrending
+                  ? Container()
+                  : SizedBox(
+                      height: kBottomNavigationBarHeight,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          paginationButtons(function: () {}, text: "Prev"),
+                          paginationButtons(function: () {}, text: "Next"),
+                        ],
+                      ),
+                    )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget paginationButtons({required Function function, required String text}) {
+    return ElevatedButton(
+      onPressed: () {
+        function();
+      },
+      child: Text(
+        text,
+      ),
+      style: ElevatedButton.styleFrom(
+        primary: Colors.blue,
+        padding: EdgeInsets.all(6),
+        textStyle: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );

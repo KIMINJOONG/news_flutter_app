@@ -1,6 +1,8 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app_flutter_course/consts/vars.dart';
 import 'package:news_app_flutter_course/services/utils.dart';
+import 'package:news_app_flutter_course/widgets/vertical_spacing.dart';
 
 class ArticlesWidget extends StatelessWidget {
   const ArticlesWidget({Key? key}) : super(key: key);
@@ -46,6 +48,51 @@ class ArticlesWidget extends StatelessWidget {
                             'http://dimg.donga.com/ugc/CDB/WEEKLY/Article/5b/02/77/fa/5b0277fa109dd2738de6.jpg',
                       ),
                     ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'title',
+                            textAlign: TextAlign.justify,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: smallTextStyle,
+                          ),
+                          VerticalSpacing(height: 5),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: Text(
+                              'Reading time',
+
+                              style: smallTextStyle,
+                            ),
+                          ),
+                          FittedBox(
+                            child: Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                    Icons.link,
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                                Text(
+                                  '20-2-2020',
+                                  maxLines: 1,
+                                  style: smallTextStyle,
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),

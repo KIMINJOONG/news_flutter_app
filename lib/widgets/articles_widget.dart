@@ -14,7 +14,7 @@ class ArticlesWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Material(
         color: Theme.of(context).cardColor,
-        child: InkWell(
+        child: GestureDetector(
           onTap: () {},
           child: Stack(
             children: [

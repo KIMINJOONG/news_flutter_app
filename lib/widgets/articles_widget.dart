@@ -45,7 +45,7 @@ class ArticlesWidget extends StatelessWidget {
                         width: size.height * 0.12,
                         boxFit: BoxFit.fill,
                         imageUrl:
-                            'http://dimg.donga.com/ugc/CDB/WEEKLY/Article/5b/02/77/fa/5b0277fa109dd2738de6.jpg',
+                            'https://imgnews.pstatic.net/image/009/2022/12/06/0005055868_001_20221206095501034.jpg?type=w647',
                       ),
                     ),
                     SizedBox(
@@ -68,7 +68,6 @@ class ArticlesWidget extends StatelessWidget {
                             alignment: Alignment.topRight,
                             child: Text(
                               'Reading time',
-
                               style: smallTextStyle,
                             ),
                           ),

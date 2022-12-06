@@ -27,7 +27,7 @@ class TopTrending extends StatelessWidget {
                 child: FancyShimmerImage(
                   boxFit: BoxFit.fill,
                   errorWidget: Image.asset('assets/images/empty_image.png'),
-                  imageUrl: '',
+                  imageUrl: 'https://imgnews.pstatic.net/image/009/2022/12/06/0005055868_001_20221206095501034.jpg?type=w647',
                   height: size.height * 0.33,
                   width: double.infinity,
                 ),

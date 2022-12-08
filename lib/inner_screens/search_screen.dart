@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:news_app_flutter_course/consts/vars.dart';
 import 'package:news_app_flutter_course/services/utils.dart';
+import 'package:news_app_flutter_course/widgets/vertical_spacing.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -96,7 +99,38 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ],
                 ),
-              )
+              ),
+              VerticalSpacing(height: 10),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: MasonryGridView.count(
+                    itemCount: searchKeywords.length,
+                    crossAxisCount: 4,
+                    mainAxisSpacing: 4,
+                    crossAxisSpacing: 4,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        child: Container(
+                          margin: const EdgeInsets.all(4.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: color),
+                            borderRadius: BorderRadius.circular(
+                              30,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              searchKeywords[index],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
             ],
           ),
         ),

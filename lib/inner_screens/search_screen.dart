@@ -3,6 +3,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:news_app_flutter_course/consts/vars.dart';
 import 'package:news_app_flutter_course/services/utils.dart';
+import 'package:news_app_flutter_course/widgets/empty_screen_widget.dart';
 import 'package:news_app_flutter_course/widgets/vertical_spacing.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -122,7 +123,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              1,
+                              searchKeywords[index],
                             ),
                           ),
                         ),
@@ -130,6 +131,10 @@ class _SearchScreenState extends State<SearchScreen> {
                     },
                   ),
                 ),
+              ),
+              const EmptyScreenWidget(
+                text: "Ops! No results found!",
+                imagePath: 'assets/images/search.png',
               ),
             ],
           ),

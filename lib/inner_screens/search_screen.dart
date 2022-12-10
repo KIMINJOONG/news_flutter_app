@@ -122,7 +122,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              searchKeywords[index],
+                              1,
                             ),
                           ),
                         ),

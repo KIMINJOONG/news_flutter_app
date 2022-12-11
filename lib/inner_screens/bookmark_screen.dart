@@ -38,7 +38,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
       body: EmptyScreenWidget(
         text: 'You didn\'t add anything yet to your bookmarks',
         imagePath: 'assets/images/bookmark.png',
-      )gg,
+      ),
       // ListView.builder(
       //   itemCount: 20,
       //   itemBuilder: (ctx, index) {

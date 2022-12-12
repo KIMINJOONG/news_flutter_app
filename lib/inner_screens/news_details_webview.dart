@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:news_app_flutter_course/services/utils.dart';
+import 'package:news_app_flutter_course/widgets/vertical_spacing.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class NewsDetailWebView extends StatefulWidget {
@@ -46,7 +47,9 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
           ),
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                await _showModalSheetFct();
+              },
               icon: Icon(Icons.more_horiz),
             ),
           ],
@@ -75,6 +78,76 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _showModalSheetFct() async {
+    await showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20.0),
+        ),
+      ),
+      context: context,
+      builder: (context) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(20.0),
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const VerticalSpacing(height: 20),
+              Center(
+                child: Container(
+                  height: 5,
+                  width: 35,
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+              ),
+              const VerticalSpacing(height: 20),
+              Text(
+                'More Option',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20,
+                ),
+              ),
+              const Divider(
+                thickness: 2,
+              ),
+              const VerticalSpacing(height: 20),
+              ListTile(
+                leading: Icon(Icons.share),
+                title: const Text(
+                  'Share',
+                ),
+                onTap: () {},
+              ),
+              ListTile(
+                leading: Icon(Icons.open_in_browser),
+                title: const Text(
+                  'Open in browser',
+                ),
+                onTap: () {},
+              ),
+              ListTile(
+                leading: Icon(Icons.refresh),
+                title: const Text(
+                  'Refresh',
+                ),
+                onTap: () {},
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

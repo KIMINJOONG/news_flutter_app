@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:news_app_flutter_course/services/utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -18,7 +19,7 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
     final Color color = Utils(context).getColor;
     return WillPopScope(
       onWillPop: () async {
-        if(await _webViewController.canGoBack()) {
+        if (await _webViewController.canGoBack()) {
           _webViewController.goBack();
           return false;
         } else {
@@ -27,6 +28,12 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
       },
       child: Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(IconlyLight.arrowLeft2),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
           iconTheme: IconThemeData(color: color),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           elevation: 0,

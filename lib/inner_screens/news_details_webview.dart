@@ -5,6 +5,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:news_app_flutter_course/services/utils.dart';
 import 'package:news_app_flutter_course/widgets/vertical_spacing.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class NewsDetailWebView extends StatefulWidget {
@@ -17,6 +18,7 @@ class NewsDetailWebView extends StatefulWidget {
 class _NewsDetailWebViewState extends State<NewsDetailWebView> {
   late WebViewController _webViewController;
   double _progress = 0.0;
+  final url = 'https://www.naver.com';
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,7 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
             ),
             Expanded(
               child: WebView(
-                initialUrl: 'https://naver.com',
+                initialUrl: url,
                 zoomEnabled: true,
                 onProgress: (progress) {
                   setState(() {
@@ -133,11 +135,9 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
                 ),
                 onTap: () async {
                   try {
-                    Share.share('url', subject: 'Look What I made!');
+                    await Share.share('url', subject: 'Look What I made!');
                   } catch (err) {
                     log(err.toString());
-                  } finally {
-                    Navigator.pop(context);
                   }
                 },
               ),
@@ -146,7 +146,14 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
                 title: const Text(
                   'Open in browser',
                 ),
-                onTap: () {},
+                onTap: () async {
+                  try {
+                    if(!await launchUrl(Uri.parse(url)))
+                      throw 'Could not launch $url';
+                  } catch (err) {
+                    log(err.toString());
+                  }
+                },
               ),
               ListTile(
                 leading: Icon(Icons.refresh),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:news_app_flutter_course/services/utils.dart';
 import 'package:news_app_flutter_course/widgets/vertical_spacing.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class NewsDetailWebView extends StatefulWidget {
@@ -105,13 +106,13 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
               const VerticalSpacing(height: 20),
               Center(
                 child: Container(
-                  height: 5,
-                  width: 35,
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(30),
-                  ),e
-                ),
+                    height: 5,
+                    width: 35,
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    e),
               ),
               const VerticalSpacing(height: 20),
               Text(
@@ -130,7 +131,15 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
                 title: const Text(
                   'Share',
                 ),
-                onTap: () {},
+                onTap: () async {
+                  try {
+                    Share.share('url', subject: 'Look What I made!');
+                  } catch (err) {
+                    log(err.toString());
+                  } finally {
+                    Navigator.pop(context);
+                  }
+                },
               ),
               ListTile(
                 leading: Icon(Icons.open_in_browser),
@@ -147,8 +156,7 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
                 onTap: () async {
                   try {
                     await _webViewController.reload();
-
-                  }catch(err) {
+                  } catch (err) {
                     log("error occured $err");
                   } finally {
                     Navigator.pop(context);

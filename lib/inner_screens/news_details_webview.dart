@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:news_app_flutter_course/services/utils.dart';
@@ -108,7 +110,7 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
                   decoration: BoxDecoration(
                     color: Colors.grey,
                     borderRadius: BorderRadius.circular(30),
-                  ),
+                  ),e
                 ),
               ),
               const VerticalSpacing(height: 20),
@@ -142,7 +144,16 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
                 title: const Text(
                   'Refresh',
                 ),
-                onTap: () {},
+                onTap: () async {
+                  try {
+                    await _webViewController.reload();
+
+                  }catch(err) {
+                    log("error occured $err");
+                  } finally {
+                    Navigator.pop(context);
+                  }
+                },
               ),
             ],
           ),

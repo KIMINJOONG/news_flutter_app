@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:news_app_flutter_course/services/global_methods.dart';
 import 'package:news_app_flutter_course/services/utils.dart';
 import 'package:news_app_flutter_course/widgets/vertical_spacing.dart';
 import 'package:share_plus/share_plus.dart';
@@ -86,6 +87,8 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
     );
   }
 
+
+
   Future<void> _showModalSheetFct() async {
     await showModalBottomSheet(
       shape: const RoundedRectangleBorder(
@@ -108,13 +111,13 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
               const VerticalSpacing(height: 20),
               Center(
                 child: Container(
-                    height: 5,
-                    width: 35,
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    e),
+                  height: 5,
+                  width: 35,
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
               ),
               const VerticalSpacing(height: 20),
               Text(
@@ -138,6 +141,7 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
                     await Share.share('url', subject: 'Look What I made!');
                   } catch (err) {
                     log(err.toString());
+                    GlobalMethods().errorDialog(errorMessage: err.toString(), context: context);
                   }
                 },
               ),
@@ -148,7 +152,7 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
                 ),
                 onTap: () async {
                   try {
-                    if(!await launchUrl(Uri.parse(url)))
+                    if (!await launchUrl(Uri.parse(url)))
                       throw 'Could not launch $url';
                   } catch (err) {
                     log(err.toString());

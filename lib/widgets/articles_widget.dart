@@ -1,6 +1,7 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app_flutter_course/consts/vars.dart';
+import 'package:news_app_flutter_course/inner_screens/blog_details.dart';
 import 'package:news_app_flutter_course/inner_screens/news_details_webview.dart';
 import 'package:news_app_flutter_course/services/utils.dart';
 import 'package:news_app_flutter_course/widgets/vertical_spacing.dart';
@@ -17,7 +18,9 @@ class ArticlesWidget extends StatelessWidget {
       child: Material(
         color: Theme.of(context).cardColor,
         child: GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, NewsDetailsScreen.routeName);
+          },
           child: Stack(
             children: [
               Container(
@@ -46,6 +49,7 @@ class ArticlesWidget extends StatelessWidget {
                         height: size.height * 0.12,
                         width: size.height * 0.12,
                         boxFit: BoxFit.fill,
+                        errorWidget: Image.asset('assets/images/empty_image.png'),
                         imageUrl:
                             'https://imgnews.pstatic.net/image/009/2022/12/06/0005055868_001_20221206095501034.jpg?type=w647',
                       ),

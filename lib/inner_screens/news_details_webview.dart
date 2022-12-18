@@ -87,8 +87,6 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
     );
   }
 
-
-
   Future<void> _showModalSheetFct() async {
     await showModalBottomSheet(
       shape: const RoundedRectangleBorder(
@@ -141,7 +139,8 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
                     await Share.share('url', subject: 'Look What I made!');
                   } catch (err) {
                     log(err.toString());
-                    GlobalMethods().errorDialog(errorMessage: err.toString(), context: context);
+                    GlobalMethods().errorDialog(
+                        errorMessage: err.toString(), context: context);
                   }
                 },
               ),

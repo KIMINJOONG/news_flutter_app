@@ -16,6 +16,7 @@ import 'package:news_app_flutter_course/widgets/vertical_spacing.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../providers/theme_provider.dart';
 
@@ -32,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String sortBy = SortByEnum.publishedAt.name;
 
   Future<void> getNews() async {
-    var url = Uri.parse('https://newsapi.org/v2/everything?q=bitcoin&apiKey=env');
+    var url = Uri.parse('https://newsapi.org/v2/everything?q=bitcoin&apiKey=${dotenv.env['API_KEY']}');
     var response = await http.get(url);
 
   }

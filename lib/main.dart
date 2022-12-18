@@ -12,14 +12,17 @@ import 'consts/theme_data.dart';
 
 //Providers
 import 'providers/theme_provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: 'assets/config/.env');
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(MyApp());
   });
 }
+
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);

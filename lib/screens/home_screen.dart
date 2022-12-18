@@ -15,6 +15,7 @@ import 'package:news_app_flutter_course/widgets/top_trending.dart';
 import 'package:news_app_flutter_course/widgets/vertical_spacing.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 import '../providers/theme_provider.dart';
 
@@ -29,6 +30,18 @@ class _HomeScreenState extends State<HomeScreen> {
   var newsType = NewsType.allNews;
   int currentPage = 0;
   String sortBy = SortByEnum.publishedAt.name;
+
+  Future<void> getNews() async {
+    var url = Uri.parse('https://newsapi.org/v2/everything?q=bitcoin&apiKey=env');
+    var response = await http.get(url);
+
+  }
+  @override
+  void didChangeDependencies() {
+    getNews();
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {

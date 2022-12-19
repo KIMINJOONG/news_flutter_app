@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app_flutter_course/consts/vars.dart';
 import 'package:news_app_flutter_course/inner_screens/search_screen.dart';
+import 'package:news_app_flutter_course/services/news_api.dart';
 import 'package:news_app_flutter_course/services/utils.dart';
 import 'package:news_app_flutter_course/widgets/articles_widget.dart';
 import 'package:news_app_flutter_course/widgets/drawer_widget.dart';
@@ -32,14 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
   int currentPage = 0;
   String sortBy = SortByEnum.publishedAt.name;
 
-  Future<void> getNews() async {
-    var url = Uri.parse('https://newsapi.org/v2/everything?q=bitcoin&apiKey=${dotenv.env['API_KEY']}');
-    var response = await http.get(url);
-
-  }
   @override
   void didChangeDependencies() {
-    getNews();
+    NewsAPiServices().getAllNews();
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }

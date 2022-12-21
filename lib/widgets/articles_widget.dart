@@ -8,7 +8,11 @@ import 'package:news_app_flutter_course/widgets/vertical_spacing.dart';
 import 'package:page_transition/page_transition.dart';
 
 class ArticlesWidget extends StatelessWidget {
-  const ArticlesWidget({Key? key}) : super(key: key);
+  const ArticlesWidget({
+    Key? key,
+    required this.imageUrl,
+  }) : super(key: key);
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +53,9 @@ class ArticlesWidget extends StatelessWidget {
                         height: size.height * 0.12,
                         width: size.height * 0.12,
                         boxFit: BoxFit.fill,
-                        errorWidget: Image.asset('assets/images/empty_image.png'),
-                        imageUrl:
-                            'https://imgnews.pstatic.net/image/009/2022/12/06/0005055868_001_20221206095501034.jpg?type=w647',
+                        errorWidget:
+                            Image.asset('assets/images/empty_image.png'),
+                        imageUrl: imageUrl,
                       ),
                     ),
                     SizedBox(

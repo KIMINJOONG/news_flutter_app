@@ -21,6 +21,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import '../models/news_model.dart';
 import '../providers/theme_provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -34,12 +35,19 @@ class _HomeScreenState extends State<HomeScreen> {
   var newsType = NewsType.allNews;
   int currentPage = 0;
   String sortBy = SortByEnum.publishedAt.name;
+  List<NewsModel> newsList = [];
 
   @override
   void didChangeDependencies() {
-    NewsAPiServices().getAllNews();
+      getNewsList();
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
+  }
+
+  Future<void> getNewsList() async {
+    newsList = await NewsAPiServices().getAllNews();
+    setState(() {});
+
   }
 
   @override
@@ -206,9 +214,9 @@ class _HomeScreenState extends State<HomeScreen> {
               if (newsType == NewsType.allNews)
                 Expanded(
                   child: ListView.builder(
-                    itemCount: 20,
+                    itemCount: newsList.length,
                     itemBuilder: (ctx, index) {
-                      return const ArticlesWidget();
+                      return ArticlesWidget(imageUrl: newsList[index].urlToImage,);
                     },
                   ),
                 ),

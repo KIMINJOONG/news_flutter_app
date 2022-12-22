@@ -23,6 +23,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../models/news_model.dart';
 import '../providers/theme_provider.dart';
+import '../widgets/empty_screen_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -39,15 +40,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void didChangeDependencies() {
-      getNewsList();
+    getNewsList();
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
-  Future<void> getNewsList() async {
-    newsList = await NewsAPiServices().getAllNews();
-    setState(() {});
-
+  Future<List<NewsModel>> getNewsList() async {
+    List<NewsModel> newsList = await NewsAPiServices().getAllNews();
+    return newsList;
   }
 
   @override
@@ -211,22 +211,53 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-              if (newsType == NewsType.allNews)
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: newsList.length,
-                    itemBuilder: (ctx, index) {
-                      return ArticlesWidget(imageUrl: newsList[index].urlToImage,);
-                    },
-                  ),
-                ),
-              if (newsType == NewsType.topTrending)
-                SizedBox(
-                  height: size.height * 0.6,
-                  child: LoadingWidget(
-                    newsType: newsType,
-                  ),
-                ),
+              FutureBuilder<List<NewsModel>>(
+                future: getNewsList(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return newsType == NewsType.allNews
+                        ? LoadingWidget(
+                            newsType: newsType,
+                          )
+                        : Expanded(
+                            child: LoadingWidget(
+                              newsType: newsType,
+                            ),
+                          );
+                  } else if (snapshot.hasError) {
+                    return Expanded(
+                      child: EmptyScreenWidget(
+                        text: "an error occured ${snapshot.error}",
+                        imagePath: 'assets/images/no_news.png',
+                      ),
+                    );
+                  } else if (snapshot.data == null) {
+                    return Expanded(
+                      child: EmptyScreenWidget(
+                        text: "No news found",
+                        imagePath: "assets/images/no_news.png",
+                      ),
+                    );
+                  }
+                  return newsType == NewsType.allNews
+                      ? Expanded(
+                          child: ListView.builder(
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (ctx, index) {
+                              return ArticlesWidget(
+                                imageUrl: snapshot.data![index].urlToImage,
+                              );
+                            },
+                          ),
+                        )
+                      : SizedBox(
+                          height: size.height * 0.6,
+                          child: LoadingWidget(
+                            newsType: newsType,
+                          ),
+                        );
+                },
+              ),
             ],
           ),
         ),

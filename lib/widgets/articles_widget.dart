@@ -11,8 +11,12 @@ class ArticlesWidget extends StatelessWidget {
   const ArticlesWidget({
     Key? key,
     required this.imageUrl,
+    required this.url,
+    required this.dateToShow,
+    required this.readingTime,
+    required this.title,
   }) : super(key: key);
-  final String imageUrl;
+  final String imageUrl, title, url, dateToShow, readingTime;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +71,7 @@ class ArticlesWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'title',
+                            title,
                             textAlign: TextAlign.justify,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -77,7 +81,7 @@ class ArticlesWidget extends StatelessWidget {
                           Align(
                             alignment: Alignment.topRight,
                             child: Text(
-                              'Reading time',
+                              readingTime,
                               style: smallTextStyle,
                             ),
                           ),
@@ -89,7 +93,9 @@ class ArticlesWidget extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       PageTransition(
-                                        child: const NewsDetailWebView(),
+                                        child: NewsDetailWebView(
+                                          url: url,
+                                        ),
                                         type: PageTransitionType.rightToLeft,
                                         inheritTheme: true,
                                         ctx: context,
@@ -102,7 +108,7 @@ class ArticlesWidget extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  '20-2-2020',
+                                  dateToShow,
                                   maxLines: 1,
                                   style: smallTextStyle,
                                 ),

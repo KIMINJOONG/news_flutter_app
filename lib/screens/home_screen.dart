@@ -246,16 +246,30 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemBuilder: (ctx, index) {
                               return ArticlesWidget(
                                 imageUrl: snapshot.data![index].urlToImage,
+                                dateToShow: snapshot.data![index].dateToShow,
+                                readingTime:
+                                    snapshot.data![index].readingTimeText,
+                                title: snapshot.data![index].title,
+                                url: snapshot.data![index].url,
                               );
                             },
                           ),
                         )
                       : SizedBox(
                           height: size.height * 0.6,
-                          child: LoadingWidget(
-                            newsType: newsType,
-                          ),
-                        );
+                          child: Swiper(
+                            autoplayDelay: 8000,
+                            autoplay: true,
+                            itemWidth: size.width * 0.9,
+                            layout: SwiperLayout.STACK,
+                            viewportFraction: 0.9,
+                            itemCount: 5,
+                            itemBuilder: (context, index) {
+                              return TopTrending(
+                                url: snapshot.data![index].url,
+                              );
+                            },
+                          ));
                 },
               ),
             ],

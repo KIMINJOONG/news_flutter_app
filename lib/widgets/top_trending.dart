@@ -7,7 +7,8 @@ import 'package:news_app_flutter_course/services/utils.dart';
 import 'package:page_transition/page_transition.dart';
 
 class TopTrending extends StatelessWidget {
-  const TopTrending({Key? key}) : super(key: key);
+  const TopTrending({Key? key, required this.url}) : super(key: key);
+  final String url;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,8 @@ class TopTrending extends StatelessWidget {
                 child: FancyShimmerImage(
                   boxFit: BoxFit.fill,
                   errorWidget: Image.asset('assets/images/empty_image.png'),
-                  imageUrl: 'https://imgnews.pstatic.net/image/009/2022/12/06/0005055868_001_20221206095501034.jpg?type=w647',
+                  imageUrl:
+                      'https://imgnews.pstatic.net/image/009/2022/12/06/0005055868_001_20221206095501034.jpg?type=w647',
                   height: size.height * 0.33,
                   width: double.infinity,
                 ),
@@ -56,7 +58,9 @@ class TopTrending extends StatelessWidget {
                       Navigator.push(
                         context,
                         PageTransition(
-                          child: const NewsDetailWebView(),
+                          child: NewsDetailWebView(
+                            url: url,
+                          ),
                           type: PageTransitionType.rightToLeft,
                           inheritTheme: true,
                           ctx: context,

@@ -10,7 +10,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class NewsDetailWebView extends StatefulWidget {
-  const NewsDetailWebView({Key? key}) : super(key: key);
+  const NewsDetailWebView({Key? key, required this.url}) : super(key: key);
+  final String url;
 
   @override
   State<NewsDetailWebView> createState() => _NewsDetailWebViewState();
@@ -19,7 +20,6 @@ class NewsDetailWebView extends StatefulWidget {
 class _NewsDetailWebViewState extends State<NewsDetailWebView> {
   late WebViewController _webViewController;
   double _progress = 0.0;
-  final url = 'https://www.naver.com';
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
           elevation: 0,
           centerTitle: true,
           title: Text(
-            'URL',
+            widget.url,
             style: TextStyle(
               color: color,
             ),
@@ -69,7 +69,7 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
             ),
             Expanded(
               child: WebView(
-                initialUrl: url,
+                initialUrl: widget.url,
                 zoomEnabled: true,
                 onProgress: (progress) {
                   setState(() {
@@ -131,12 +131,12 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
               const VerticalSpacing(height: 20),
               ListTile(
                 leading: Icon(Icons.share),
-                title: const Text(
-                  'Share',
+                title: Text(
+                  widget.url,
                 ),
                 onTap: () async {
                   try {
-                    await Share.share('url', subject: 'Look What I made!');
+                    await Share.share(widget.url, subject: 'Look What I made!');
                   } catch (err) {
                     log(err.toString());
                     GlobalMethods().errorDialog(
@@ -151,8 +151,8 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
                 ),
                 onTap: () async {
                   try {
-                    if (!await launchUrl(Uri.parse(url)))
-                      throw 'Could not launch $url';
+                    if (!await launchUrl(Uri.parse(widget.url)))
+                      throw 'Could not launch ${widget.url}.';
                   } catch (err) {
                     log(err.toString());
                   }

@@ -48,6 +48,7 @@ dependencies:
   url_launcher: ^6.1.7
   http: ^0.13.5
   flutter_dotenv: ^5.0.2
+  reading_time: ^2.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,5 @@
+import 'package:reading_time/reading_time.dart';
+
 class NewsModel {
   String newsId,
       sourceName,
@@ -26,19 +28,22 @@ class NewsModel {
   });
 
   factory NewsModel.fromJson(dynamic json) {
+    String title = json['title'] ?? "";
+    String content = json['content'] ?? "";
+    String description = json['description'] ?? "";
     return NewsModel(
       newsId: json['source']['id'] ?? "",
       sourceName: json['source']['name'] ?? "",
       authorName: json['author'] ?? "",
-      title: json['title'] ?? "",
-      description: json['description'] ?? "",
+      title: title,
+      description: description,
       url: json['url'] ?? "",
       urlToImage: json['urlToImage'] ??
           'https://imgnews.pstatic.net/image/009/2022/12/06/0005055868_001_20221206095501034.jpg?type=w647',
       publishedAt: json['publishedAt'] ?? "",
-      content: json[''] ?? "",
+      content: content,
       dateToShow: "dateToShow",
-      readingTimeText: "readingTimeText",
+      readingTimeText: readingTime(title + description + content).msg,
     );
   }
 

@@ -1,3 +1,4 @@
+import 'package:news_app_flutter_course/services/global_methods.dart';
 import 'package:reading_time/reading_time.dart';
 
 class NewsModel {
@@ -31,6 +32,10 @@ class NewsModel {
     String title = json['title'] ?? "";
     String content = json['content'] ?? "";
     String description = json['description'] ?? "";
+    String dateToShow = "";
+    if(json['publishedAt'] != null) {
+      dateToShow = GlobalMethods.formattedDateText(json['publishedAt']);
+    }
     return NewsModel(
       newsId: json['source']['id'] ?? "",
       sourceName: json['source']['name'] ?? "",
@@ -42,7 +47,7 @@ class NewsModel {
           'https://imgnews.pstatic.net/image/009/2022/12/06/0005055868_001_20221206095501034.jpg?type=w647',
       publishedAt: json['publishedAt'] ?? "",
       content: content,
-      dateToShow: "dateToShow",
+      dateToShow: dateToShow,
       readingTimeText: readingTime(title + description + content).msg,
     );
   }

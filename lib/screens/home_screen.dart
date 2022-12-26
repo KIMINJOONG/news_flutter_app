@@ -246,7 +246,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemBuilder: (ctx, index) {
                               return ArticlesWidget(
                                 imageUrl: snapshot.data![index].urlToImage,
-                                dateToShow: snapshot.data![index].dateToShow,
+                                dateToShow: snapshot.data![index].publishedAt,
                                 readingTime:
                                     snapshot.data![index].readingTimeText,
                                 title: snapshot.data![index].title,

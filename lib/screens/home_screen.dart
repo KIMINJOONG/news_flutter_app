@@ -36,19 +36,13 @@ class _HomeScreenState extends State<HomeScreen> {
   var newsType = NewsType.allNews;
   int currentPage = 0;
   String sortBy = SortByEnum.publishedAt.name;
-  List<NewsModel> newsList = [];
 
   @override
   void didChangeDependencies() {
-    getNewsList();
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
-  Future<List<NewsModel>> getNewsList() async {
-    List<NewsModel> newsList = await NewsAPiServices().getAllNews();
-    return newsList;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -212,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
               FutureBuilder<List<NewsModel>>(
-                future: getNewsList(),
+                future: NewsAPiServices().getAllNews(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return newsType == NewsType.allNews

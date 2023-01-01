@@ -8,6 +8,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app_flutter_course/consts/vars.dart';
 import 'package:news_app_flutter_course/inner_screens/search_screen.dart';
+import 'package:news_app_flutter_course/providers/news_provider.dart';
 import 'package:news_app_flutter_course/services/news_api.dart';
 import 'package:news_app_flutter_course/services/utils.dart';
 import 'package:news_app_flutter_course/widgets/articles_widget.dart';
@@ -48,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final Color color = Utils(context).getColor;
     Size size = Utils(context).getScreenSize;
+    final newsProvider = Provider.of<NewsProvider>(context);
 
     return SafeArea(
       child: Scaffold(
@@ -206,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
               FutureBuilder<List<NewsModel>>(
-                future: NewsAPiServices().getAllNews(),
+                future: newsProvider.fetchAllNews(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return newsType == NewsType.allNews

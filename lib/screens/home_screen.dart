@@ -240,13 +240,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ListView.builder(
                             itemCount: snapshot.data!.length,
                             itemBuilder: (ctx, index) {
-                              return ArticlesWidget(
-                                imageUrl: snapshot.data![index].urlToImage,
-                                dateToShow: snapshot.data![index].publishedAt,
-                                readingTime:
-                                    snapshot.data![index].readingTimeText,
-                                title: snapshot.data![index].title,
-                                url: snapshot.data![index].url,
+                              return ChangeNotifierProvider.value(
+                                value: snapshot.data![index],
+                                child: ArticlesWidget(
+                                  // imageUrl: snapshot.data![index].urlToImage,
+                                  // dateToShow: snapshot.data![index].publishedAt,
+                                  // readingTime:
+                                  //     snapshot.data![index].readingTimeText,
+                                  // title: snapshot.data![index].title,
+                                  // url: snapshot.data![index].url,
+                                ),
                               );
                             },
                           ),

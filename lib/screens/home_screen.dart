@@ -202,13 +202,17 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: DropdownButton(
                             value: sortBy,
                             items: dropDownItems,
-                            onChanged: (String? value) {},
+                            onChanged: (String? value) {
+                              setState(() {
+                                sortBy = value!;
+                              });
+                            },
                           ),
                         ),
                       ),
                     ),
               FutureBuilder<List<NewsModel>>(
-                future: newsProvider.fetchAllNews(),
+                future: newsProvider.fetchAllNews(pageIndex: currentPage, sortBy: sortBy),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return newsType == NewsType.allNews

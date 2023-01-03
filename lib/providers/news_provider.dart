@@ -10,8 +10,8 @@ class NewsProvider with ChangeNotifier{
     return newsList;
   }
 
-  Future<List<NewsModel>> fetchAllNews() async {
-    newsList = await NewsAPiServices().getAllNews();
+  Future<List<NewsModel>> fetchAllNews({required int pageIndex, required String sortBy}) async {
+    newsList = await NewsAPiServices().getAllNews(page: pageIndex, sortBy: sortBy);
     return newsList;
   }
 

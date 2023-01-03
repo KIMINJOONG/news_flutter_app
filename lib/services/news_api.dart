@@ -7,7 +7,7 @@ import 'package:news_app_flutter_course/models/news_model.dart';
 import '../consts/api_consts.dart';
 
 class NewsAPiServices {
-  Future<List<NewsModel>> getAllNews() async {
+  Future<List<NewsModel>> getAllNews({required int page, required String sortBy}) async {
     try {
       // var url = Uri.parse('https://newsapi.org/v2/everything?q=bitcoin&pageSize=5&apiKey=${dotenv.env['API_KEY']}');
 
@@ -15,6 +15,8 @@ class NewsAPiServices {
         "q": "bitcoin",
         "pageSize": "5",
         "apiKey": API_KEY,
+        "page": page.toString(),
+        "sortBy": sortBy,
       });
       var response = await http.get(uri, headers: {"x-Api-key": API_KEY!});
       Map data = jsonDecode(response.body);

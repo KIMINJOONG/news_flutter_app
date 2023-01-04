@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app_flutter_course/consts/vars.dart';
+import 'package:news_app_flutter_course/providers/news_provider.dart';
 import 'package:news_app_flutter_course/services/global_methods.dart';
 import 'package:news_app_flutter_course/services/utils.dart';
 import 'package:news_app_flutter_course/widgets/vertical_spacing.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -29,6 +31,9 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final Color color = Utils(context).getColor;
+    final newsProvider = Provider.of<NewsProvider>(context);
+    final publishedAt = ModalRoute.of(context)!.settings.arguments as String;
+    final currentNews = newsProvider.findByDate(publishedAt: publishedAt);
     return WillPopScope(
       onWillPop: () async {
         if (await _webViewController.canGoBack()) {
@@ -45,7 +50,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             centerTitle: true,
             title: Text(
-              'By Author',
+              currentNews.authorName,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: color,
@@ -69,7 +74,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Title' * 10,
+                      currentNews.title,
                       textAlign: TextAlign.justify,
                       style: smallTextStyle,
                     ),
@@ -77,12 +82,12 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                     Row(
                       children: [
                         Text(
-                          "20/20/2015",
+                          currentNews.dateToShow,
                           style: smallTextStyle,
                         ),
                         const Spacer(),
                         Text(
-                          "readingTimeText",
+                          currentNews.readingTimeText,
                           style: smallTextStyle,
                         ),
                       ],
@@ -101,8 +106,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                         boxFit: BoxFit.fill,
                         errorWidget:
                             Image.asset('assets/images/empty_image.png'),
-                        imageUrl:
-                            'https://imgnews.pstatic.net/image/009/2022/12/06/0005055868_001_20221206095501034.jpg?type=w647',
+                        imageUrl: currentNews.urlToImage,
                       ),
                     ),
                   ),
@@ -164,8 +168,8 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                     const VerticalSpacing(height: 10),
-                    const TextContent(
-                      label: 'Description',
+                     TextContent(
+                      label: currentNews.description,
                       fontSize: 18,
                       fontWeight: FontWeight.normal,
                     ),
@@ -175,6 +179,13 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
+                    const VerticalSpacing(height: 10),
+                    TextContent(
+                      label: currentNews.content,
+                      fontSize: 18,
+                      fontWeight: FontWeight.normal,
+                    ),
+
                   ],
                 ),
               )

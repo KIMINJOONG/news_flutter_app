@@ -291,6 +291,7 @@ class _HomeScreenState extends State<HomeScreen> {
       DropdownMenuItem(
         value: SortByEnum.popularity.name,
         child: Text(SortByEnum.popularity.name),
+
       ),
       DropdownMenuItem(
         value: SortByEnum.publishedAt.name,

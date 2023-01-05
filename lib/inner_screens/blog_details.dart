@@ -44,153 +44,158 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
         }
       },
       child: Scaffold(
-          appBar: AppBar(
-            iconTheme: IconThemeData(color: color),
-            elevation: 0,
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            centerTitle: true,
-            title: Text(
-              currentNews.authorName,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: color,
-              ),
-            ),
-            leading: IconButton(
-              icon: Icon(
-                IconlyLight.arrowLeft,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: color),
+          elevation: 0,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          centerTitle: true,
+          title: Text(
+            currentNews.authorName,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: color,
             ),
           ),
-          body: ListView(
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      currentNews.title,
-                      textAlign: TextAlign.justify,
-                      style: smallTextStyle,
+          leading: IconButton(
+            icon: Icon(
+              IconlyLight.arrowLeft,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        body: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    currentNews.title,
+                    textAlign: TextAlign.justify,
+                    style: smallTextStyle,
+                  ),
+                  const VerticalSpacing(height: 25),
+                  Row(
+                    children: [
+                      Text(
+                        currentNews.dateToShow,
+                        style: smallTextStyle,
+                      ),
+                      const Spacer(),
+                      Text(
+                        currentNews.readingTimeText,
+                        style: smallTextStyle,
+                      ),
+                    ],
+                  ),
+                  const VerticalSpacing(height: 20),
+                ],
+              ),
+            ),
+            Stack(
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 25),
+                    child: FancyShimmerImage(
+                      boxFit: BoxFit.fill,
+                      errorWidget: Image.asset('assets/images/empty_image.png'),
+                      imageUrl: currentNews.urlToImage,
                     ),
-                    const VerticalSpacing(height: 25),
-                    Row(
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  right: 10,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      right: 10,
+                    ),
+                    child: Row(
                       children: [
-                        Text(
-                          currentNews.dateToShow,
-                          style: smallTextStyle,
+                        GestureDetector(
+                          onTap: () async {
+                            try {
+                              await Share.share(currentNews.url, subject: 'Look What I made!');
+                            } catch (err) {
+                              log(err.toString());
+                              GlobalMethods().errorDialog(
+                                  errorMessage: err.toString(), context: context);
+                            }
+                          },
+                          child: Card(
+                            elevation: 10,
+                            shape: const CircleBorder(),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                IconlyLight.send,
+                                size: 28,
+                                color: color,
+                              ),
+                            ),
+                          ),
                         ),
-                        const Spacer(),
-                        Text(
-                          currentNews.readingTimeText,
-                          style: smallTextStyle,
+                        GestureDetector(
+                          onTap: () {},
+                          child: Card(
+                            elevation: 10,
+                            shape: const CircleBorder(),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                IconlyLight.bookmark,
+                                size: 28,
+                                color: color,
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                    const VerticalSpacing(height: 20),
-                  ],
-                ),
-              ),
-              Stack(
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 25),
-                      child: FancyShimmerImage(
-                        boxFit: BoxFit.fill,
-                        errorWidget:
-                            Image.asset('assets/images/empty_image.png'),
-                        imageUrl: currentNews.urlToImage,
-                      ),
-                    ),
                   ),
-                  Positioned(
-                    bottom: 0,
-                    right: 10,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        right: 10,
-                      ),
-                      child: Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {},
-                            child: Card(
-                              elevation: 10,
-                              shape: const CircleBorder(),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(
-                                  IconlyLight.send,
-                                  size: 28,
-                                  color: color,
-                                ),
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {},
-                            child: Card(
-                              elevation: 10,
-                              shape: const CircleBorder(),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(
-                                  IconlyLight.bookmark,
-                                  size: 28,
-                                  color: color,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
+                )
+              ],
+            ),
+            const VerticalSpacing(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const TextContent(
+                    label: 'Description',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  const VerticalSpacing(height: 10),
+                  TextContent(
+                    label: currentNews.description,
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
+                  ),
+                  const VerticalSpacing(height: 20),
+                  const TextContent(
+                    label: 'Contents',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  const VerticalSpacing(height: 10),
+                  TextContent(
+                    label: currentNews.content,
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
+                  ),
                 ],
               ),
-              const VerticalSpacing(height: 20),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const TextContent(
-                      label: 'Description',
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    const VerticalSpacing(height: 10),
-                     TextContent(
-                      label: currentNews.description,
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                    ),
-                    const VerticalSpacing(height: 20),
-                    const TextContent(
-                      label: 'Contents',
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    const VerticalSpacing(height: 10),
-                    TextContent(
-                      label: currentNews.content,
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                    ),
-
-                  ],
-                ),
-              )
-            ],
-          )),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

@@ -44,7 +44,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.didChangeDependencies();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final Color color = Utils(context).getColor;
@@ -212,7 +211,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
               FutureBuilder<List<NewsModel>>(
-                future: newsProvider.fetchAllNews(pageIndex: currentPage, sortBy: sortBy),
+                future: newsType == NewsType.topTrending
+                    ? newsProvider.fetchTopHeadlines()
+                    : newsProvider.fetchAllNews(
+                        pageIndex: currentPage, sortBy: sortBy),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return newsType == NewsType.allNews
@@ -247,13 +249,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               return ChangeNotifierProvider.value(
                                 value: snapshot.data![index],
                                 child: ArticlesWidget(
-                                  // imageUrl: snapshot.data![index].urlToImage,
-                                  // dateToShow: snapshot.data![index].publishedAt,
-                                  // readingTime:
-                                  //     snapshot.data![index].readingTimeText,
-                                  // title: snapshot.data![index].title,
-                                  // url: snapshot.data![index].url,
-                                ),
+                                    // imageUrl: snapshot.data![index].urlToImage,
+                                    // dateToShow: snapshot.data![index].publishedAt,
+                                    // readingTime:
+                                    //     snapshot.data![index].readingTimeText,
+                                    // title: snapshot.data![index].title,
+                                    // url: snapshot.data![index].url,
+                                    ),
                               );
                             },
                           ),
@@ -268,8 +270,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             viewportFraction: 0.9,
                             itemCount: 5,
                             itemBuilder: (context, index) {
-                              return TopTrending(
-                                url: snapshot.data![index].url,
+                              return ChangeNotifierProvider.value(
+                                value: snapshot.data![index],
+                                child: TopTrending(),
                               );
                             },
                           ));
@@ -291,7 +294,6 @@ class _HomeScreenState extends State<HomeScreen> {
       DropdownMenuItem(
         value: SortByEnum.popularity.name,
         child: Text(SortByEnum.popularity.name),
-
       ),
       DropdownMenuItem(
         value: SortByEnum.publishedAt.name,

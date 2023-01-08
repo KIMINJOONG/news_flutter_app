@@ -39,10 +39,37 @@ class NewsAPiServices {
 
   Future<List<NewsModel>> getTopHeadlines() async {
     try {
-
       var uri = Uri.https(BASEURL, "v2/top-headlines", {
         'country': 'us',
         "apiKey": API_KEY,
+      });
+      var response = await http.get(uri, headers: {"x-Api-key": API_KEY!});
+      Map data = jsonDecode(response.body);
+      List newsTempList = [];
+
+      if (data['code'] != null) {
+        throw data['message'];
+      }
+      for (var v in data['articles']) {
+        newsTempList.add(v);
+      }
+      return NewsModel.newsFromSnapshot(newsTempList);
+    } catch (error) {
+      throw error.toString();
+    }
+  }
+
+  Future<List<NewsModel>> searchNews({
+    required String query,
+  }) async {
+    try {
+      // var url = Uri.parse('https://newsapi.org/v2/everything?q=bitcoin&pageSize=5&apiKey=${dotenv.env['API_KEY']}');
+
+      var uri = Uri.https(BASEURL, "v2/everything", {
+        "q": query,
+        "pageSize": "10",
+        "apiKey": API_KEY,
+        "domain": "techcrunch.com",
       });
       var response = await http.get(uri, headers: {"x-Api-key": API_KEY!});
       Map data = jsonDecode(response.body);

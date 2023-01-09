@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:news_app_flutter_course/inner_screens/blog_details.dart';
+import 'package:news_app_flutter_course/providers/bookmarks_provider.dart';
 import 'package:news_app_flutter_course/providers/news_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -51,27 +52,41 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) {
-          //Notify about theme changes
-          return themeChangeProvider;
-        }),
+        ChangeNotifierProvider(
+          create: (_) {
+            //Notify about theme changes
+            return themeChangeProvider;
+          },
+        ),
         ChangeNotifierProvider(
           create: (_) => NewsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => BookmarksProvider(),
         ),
       ],
       child:
           //Notify about theme changes
-          Consumer<ThemeProvider>(builder: (context, themeChangeProvider, ch) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Blog',
-          theme: Styles.themeData(themeChangeProvider.getDarkTheme, context),
-          home: const HomeScreen(),
-          routes: {
-            NewsDetailsScreen.routeName: (ctx) => const NewsDetailsScreen(),
-          },
-        );
-      }),
+          Consumer<ThemeProvider>(
+        builder: (
+          context,
+          themeChangeProvider,
+          ch,
+        ) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Blog',
+            theme: Styles.themeData(
+              themeChangeProvider.getDarkTheme,
+              context,
+            ),
+            home: const HomeScreen(),
+            routes: {
+              NewsDetailsScreen.routeName: (ctx) => const NewsDetailsScreen(),
+            },
+          );
+        },
+      ),
     );
   }
 }

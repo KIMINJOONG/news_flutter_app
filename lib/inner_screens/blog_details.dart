@@ -14,6 +14,8 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../providers/bookmarks_provider.dart';
+
 class NewsDetailsScreen extends StatefulWidget {
   static const routeName = '/NewsDetailsScreen';
 
@@ -32,6 +34,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
   Widget build(BuildContext context) {
     final Color color = Utils(context).getColor;
     final newsProvider = Provider.of<NewsProvider>(context);
+    final bookmarksProvider = Provider.of<BookmarksProvider>(context);
     final publishedAt = ModalRoute.of(context)!.settings.arguments as String;
     final currentNews = newsProvider.findByDate(publishedAt: publishedAt);
     return WillPopScope(
@@ -105,7 +108,8 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                       tag: currentNews.publishedAt,
                       child: FancyShimmerImage(
                         boxFit: BoxFit.fill,
-                        errorWidget: Image.asset('assets/images/empty_image.png'),
+                        errorWidget:
+                            Image.asset('assets/images/empty_image.png'),
                         imageUrl: currentNews.urlToImage,
                       ),
                     ),
@@ -123,11 +127,13 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                         GestureDetector(
                           onTap: () async {
                             try {
-                              await Share.share(currentNews.url, subject: 'Look What I made!');
+                              await Share.share(currentNews.url,
+                                  subject: 'Look What I made!');
                             } catch (err) {
                               log(err.toString());
                               GlobalMethods().errorDialog(
-                                  errorMessage: err.toString(), context: context);
+                                  errorMessage: err.toString(),
+                                  context: context);
                             }
                           },
                           child: Card(
@@ -144,7 +150,9 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () async {
+                            await bookmarksProvider.addToBookmark();
+                          },
                           child: Card(
                             elevation: 10,
                             shape: const CircleBorder(),

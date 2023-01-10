@@ -29,6 +29,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
   late WebViewController _webViewController;
   double _progress = 0.0;
   final url = 'https://www.naver.com';
+  final bool isInBookmark = false;
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +152,12 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            await bookmarksProvider.addToBookmark();
+                            if (isInBookmark) {
+                              await bookmarksProvider.deleteBookmark();
+                            } else {
+                              await bookmarksProvider.addToBookmark(
+                                  newsModel: currentNews);
+                            }
                           },
                           child: Card(
                             elevation: 10,

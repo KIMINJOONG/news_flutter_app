@@ -6,11 +6,18 @@ import 'package:news_app_flutter_course/consts/api_consts.dart';
 import 'package:news_app_flutter_course/models/bookmarks_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:news_app_flutter_course/models/news_model.dart';
+import 'package:news_app_flutter_course/services/news_api.dart';
 
 class BookmarksProvider with ChangeNotifier {
   List<BookmarksModel> bookmarkList = [];
 
   List<BookmarksModel> get getBookmarkList {
+    return bookmarkList;
+  }
+
+  Future<List<BookmarksModel>> fetchBookmarks() async {
+    bookmarkList = await NewsAPiServices.getBookmarks() ?? [];
+    // notifyListeners();
     return bookmarkList;
   }
 
@@ -21,9 +28,7 @@ class BookmarksProvider with ChangeNotifier {
       });
       var response = await http.post(
         uri,
-        body: json.encode(
-            newsModel.toJson()
-        ),
+        body: json.encode(newsModel.toJson()),
       );
 
       log('Response status: ${response.statusCode}');
@@ -32,7 +37,6 @@ class BookmarksProvider with ChangeNotifier {
       rethrow;
     }
   }
-
 
   Future<void> deleteBookmark() async {
     try {

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:news_app_flutter_course/models/bookmarks_model.dart';
 import 'package:news_app_flutter_course/models/news_model.dart';
 
 import '../consts/api_consts.dart';
@@ -84,6 +85,30 @@ class NewsAPiServices {
       return NewsModel.newsFromSnapshot(newsTempList);
     } catch (error) {
       throw error.toString();
+    }
+  }
+
+  static Future<List<BookmarksModel>?> getBookmarks() async {
+    try {
+      var uri = Uri.https(BASEURL_FIREBASE!, "bookmarks.json");
+      var response = await http.get(uri);
+
+      log('Response status: ${response.statusCode}');
+      log('Response status: ${response.body}');
+
+      Map data = jsonDecode(response.body);
+      List allKeys = [];
+
+      if (data['code'] != null) {
+        throw data['message'];
+      }
+
+      for(String key in data.keys) {
+        allKeys.add(key);
+      }
+      return BookmarksModel.bookmarksFromSnapshot(json: data, allKeys: allKeys);
+    } catch (error) {
+      rethrow;
     }
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app_flutter_course/inner_screens/bookmark_screen.dart';
 import 'package:news_app_flutter_course/providers/theme_provider.dart';
+import 'package:news_app_flutter_course/screens/home_screen.dart';
 import 'package:news_app_flutter_course/widgets/vertical_spacing.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -54,17 +55,27 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             const VerticalSpacing(height: 20.0),
             ListTiles(
               label: "Home",
-              fct: () {},
+              fct: () {
+                Navigator.pushReplacement(
+                  context,
+                  PageTransition(
+                    child: const HomeScreen(),
+                    type: PageTransitionType.rightToLeft,
+                    inheritTheme: true,
+                    ctx: context,
+                  ),
+                );
+              },
               icon: IconlyBold.home,
             ),
             ListTiles(
               label: "Bookmark",
               icon: IconlyBold.bookmark,
               fct: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   PageTransition(
-                    child: BookmarkScreen(),
+                    child: const BookmarkScreen(),
                     type: PageTransitionType.rightToLeft,
                     inheritTheme: true,
                     ctx: context,

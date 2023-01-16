@@ -39,9 +39,9 @@ class BookmarksProvider with ChangeNotifier {
     }
   }
 
-  Future<void> deleteBookmark() async {
+  Future<void> deleteBookmark({required String key}) async {
     try {
-      var uri = Uri.https(BASEURL_FIREBASE!, "bookmarks.json", {
+      var uri = Uri.https(BASEURL_FIREBASE!, "bookmarks/$key.json", {
         "apiKey": API_KEY,
       });
       var response = await http.delete(uri);

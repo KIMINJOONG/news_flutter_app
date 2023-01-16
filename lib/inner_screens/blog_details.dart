@@ -30,13 +30,13 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
   late WebViewController _webViewController;
   bool isInBookmark = false;
   String? publishedAt;
+  dynamic currBookmark;
 
   @override
   void didChangeDependencies() {
     publishedAt = ModalRoute.of(context)!.settings.arguments as String;
     final List<BookmarksModel> bookmarkList =
         Provider.of<BookmarksProvider>(context).getBookmarkList;
-    dynamic currBookmark;
 
     if (bookmarkList.isEmpty) {
       return;
@@ -46,7 +46,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
         .where((element) => element.publishedAt == publishedAt)
         .toList();
 
-    if(currBookmark.isEmpty) {
+    if (currBookmark.isEmpty) {
       isInBookmark = false;
     } else {
       isInBookmark = true;
@@ -176,10 +176,13 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                         GestureDetector(
                           onTap: () async {
                             if (isInBookmark) {
-                              await bookmarksProvider.deleteBookmark();
+                              await bookmarksProvider.deleteBookmark(
+                                key: currBookmark[0].bookmarkKey,
+                              );
                             } else {
                               await bookmarksProvider.addToBookmark(
-                                  newsModel: currentNews);
+                                newsModel: currentNews,
+                              );
                             }
                             await bookmarksProvider.fetchBookmarks();
                           },
@@ -189,7 +192,9 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Icon(
-                                isInBookmark ? IconlyBold.bookmark : IconlyLight.bookmark,
+                                isInBookmark
+                                    ? IconlyBold.bookmark
+                                    : IconlyLight.bookmark,
                                 size: 28,
                                 color: isInBookmark ? Colors.green : color,
                               ),

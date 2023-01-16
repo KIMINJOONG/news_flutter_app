@@ -17,7 +17,7 @@ class BookmarksProvider with ChangeNotifier {
 
   Future<List<BookmarksModel>> fetchBookmarks() async {
     bookmarkList = await NewsAPiServices.getBookmarks() ?? [];
-    // notifyListeners();
+    notifyListeners();
     return bookmarkList;
   }
 
@@ -30,6 +30,7 @@ class BookmarksProvider with ChangeNotifier {
         uri,
         body: json.encode(newsModel.toJson()),
       );
+      notifyListeners();
 
       log('Response status: ${response.statusCode}');
       log('Response status: ${response.body}');
@@ -44,7 +45,7 @@ class BookmarksProvider with ChangeNotifier {
         "apiKey": API_KEY,
       });
       var response = await http.delete(uri);
-
+      notifyListeners();
       log('Response status: ${response.statusCode}');
       log('Response status: ${response.body}');
     } catch (error) {

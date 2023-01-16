@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app_flutter_course/consts/vars.dart';
+import 'package:news_app_flutter_course/models/bookmarks_model.dart';
 import 'package:news_app_flutter_course/providers/news_provider.dart';
 import 'package:news_app_flutter_course/services/global_methods.dart';
 import 'package:news_app_flutter_course/services/utils.dart';
@@ -27,16 +28,38 @@ class NewsDetailsScreen extends StatefulWidget {
 
 class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
   late WebViewController _webViewController;
-  double _progress = 0.0;
-  final url = 'https://www.naver.com';
-  final bool isInBookmark = false;
+  bool isInBookmark = false;
+  String? publishedAt;
+
+  @override
+  void didChangeDependencies() {
+    publishedAt = ModalRoute.of(context)!.settings.arguments as String;
+    final List<BookmarksModel> bookmarkList =
+        Provider.of<BookmarksProvider>(context).getBookmarkList;
+    dynamic currBookmark;
+
+    if (bookmarkList.isEmpty) {
+      return;
+    }
+
+    currBookmark = bookmarkList
+        .where((element) => element.publishedAt == publishedAt)
+        .toList();
+
+    if(currBookmark.isEmpty) {
+      isInBookmark = false;
+    } else {
+      isInBookmark = true;
+    }
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
     final Color color = Utils(context).getColor;
     final newsProvider = Provider.of<NewsProvider>(context);
     final bookmarksProvider = Provider.of<BookmarksProvider>(context);
-    final publishedAt = ModalRoute.of(context)!.settings.arguments as String;
     final currentNews = newsProvider.findByDate(publishedAt: publishedAt);
     return WillPopScope(
       onWillPop: () async {
@@ -158,6 +181,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                               await bookmarksProvider.addToBookmark(
                                   newsModel: currentNews);
                             }
+                            await bookmarksProvider.fetchBookmarks();
                           },
                           child: Card(
                             elevation: 10,
@@ -165,9 +189,9 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Icon(
-                                IconlyLight.bookmark,
+                                isInBookmark ? IconlyBold.bookmark : IconlyLight.bookmark,
                                 size: 28,
-                                color: color,
+                                color: isInBookmark ? Colors.green : color,
                               ),
                             ),
                           ),

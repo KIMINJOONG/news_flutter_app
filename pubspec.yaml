@@ -53,10 +53,19 @@ dependencies:
   firebase_database: ^10.0.9
 
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: "^0.11.0"
+  flutter_native_splash: ^2.2.16
+
+flutter_native_splash:
+  color_dark: "#000000"
+  color: "#00001a"
+  image_dark: assets/images/logo.png
+  image: assets/images/logo.png
+  android_gravity: center
 
 flutter_icons:
   android: "launcher_icon"
